@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,6 +18,10 @@ import config from '../ormconfig';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(config),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+      installSubscriptionHandlers: true,
+    }),
     UserModule,
     AuthModule,
   ],
