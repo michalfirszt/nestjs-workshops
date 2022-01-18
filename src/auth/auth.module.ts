@@ -8,10 +8,11 @@ import { UserModule } from '../user/user.module';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
+import { AuthConfig } from './auth.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forFeature(AuthConfig),
     UserModule,
     PassportModule,
     JwtModule.register({
