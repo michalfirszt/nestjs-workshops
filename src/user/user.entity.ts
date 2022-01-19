@@ -7,6 +7,11 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
+enum UserRoles {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+}
+
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -27,6 +32,9 @@ export class User extends BaseEntity {
   @Index('users-email-unique', ['email'], { unique: true })
   @Column()
   email: string;
+
+  @Column({ type: 'enum', enum: UserRoles, default: UserRoles.USER })
+  role: UserRoles;
 
   @Column({
     name: 'email_verified_at',
