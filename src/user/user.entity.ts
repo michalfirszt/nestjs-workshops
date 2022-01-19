@@ -1,7 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Index,
+} from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -31,4 +38,9 @@ export class User {
 
   @Column({ nullable: true })
   password: string | null;
+
+  async getIsPasswordValid(password) {
+    const validPassword = await bcrypt.compare(password, this.password);
+    return validPassword;
+  }
 }
