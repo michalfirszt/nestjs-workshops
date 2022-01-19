@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   Index,
 } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 
 enum UserRoles {
@@ -12,11 +13,13 @@ enum UserRoles {
   ADMIN = 'ADMIN',
 }
 
+@ObjectType('User')
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Field()
   @Column()
   name: string;
 
@@ -29,6 +32,7 @@ export class User extends BaseEntity {
   @Column({ default: true })
   isActive: boolean;
 
+  @Field()
   @Index('users-email-unique', ['email'], { unique: true })
   @Column()
   email: string;

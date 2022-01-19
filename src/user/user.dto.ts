@@ -7,10 +7,6 @@ import { Match } from '../utilities/match.decorator';
 export class UserCreateDto extends PickType(User, ['email', 'name']) {
   @Field()
   password: string;
-
-  @Field()
-  @Match('password')
-  passwordConfirmation: string;
 }
 
 @InputType()
