@@ -4,7 +4,12 @@ import * as bcrypt from 'bcrypt';
 
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserCreateDto, UserUpdateDto } from './user.dto';
+import {
+  UserCreateDto,
+  UserUpdateDto,
+  UserUpdatePasswordDto,
+} from './user.dto';
+import { getHashedPassword } from '../utilities/auth.tools';
 
 export type CreateUserData = {
   name: string;
@@ -65,6 +70,20 @@ export class UserService {
 
   async update(user: User, userDto: UserUpdateDto): Promise<User> {
     await this.userRepository.update({ id: user.id }, { ...userDto });
+
+    return this.userRepository.findOne(user.id);
+  }
+
+  async updatePassword(
+    user: User,
+    userDto: UserUpdatePasswordDto,
+  ): Promise<User> {
+    const hashedPassword = await getHashedPassword(userDto.password);
+
+    await this.userRepository.update(
+      { id: user.id },
+      { password: hashedPassword },
+    );
 
     return this.userRepository.findOne(user.id);
   }
