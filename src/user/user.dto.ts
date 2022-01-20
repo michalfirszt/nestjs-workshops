@@ -20,7 +20,10 @@ export class UserUpdateDto extends PartialType(
   PickType(User, ['email', 'name']),
 ) {
   @Field()
-  password: string;
+  name: string;
+
+  @Field()
+  email: string;
 }
 
 @InputType()

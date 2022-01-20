@@ -27,6 +27,7 @@ export class UserResolver {
     return this.userService.createUser(userDto);
   }
 
+  @UseGuards(UserGraphqlAuthGuard)
   @Mutation(() => User)
   async userUpdate(
     @Args('user') userDto: UserUpdateDto,
