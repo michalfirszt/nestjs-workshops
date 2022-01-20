@@ -19,6 +19,14 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
+  async findUserById(id: number): Promise<User> {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
+  async findUserByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({ where: { email } });
+  }
+
   async findOneByEmail(email: string): Promise<User | undefined> {
     const user = await getRepository(User)
       .createQueryBuilder('user')
