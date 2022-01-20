@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserCreateDto } from './user.dto';
+import { UserCreateDto, UserUpdateDto } from './user.dto';
 
 export type CreateUserData = {
   name: string;
@@ -53,5 +53,11 @@ export class UserService {
     user.password = password;
 
     return user.save();
+  }
+
+  async update(user: User, userDto: UserUpdateDto): Promise<User> {
+    await this.userRepository.update({ id: user.id }, { ...userDto });
+
+    return this.userRepository.findOne(user.id);
   }
 }

@@ -6,13 +6,22 @@ import { Match } from '../utilities/match.decorator';
 @InputType()
 export class UserCreateDto extends PickType(User, ['email', 'name']) {
   @Field()
+  name: string;
+
+  @Field()
+  email: string;
+
+  @Field()
   password: string;
 }
 
 @InputType()
 export class UserUpdateDto extends PartialType(
   PickType(User, ['email', 'name']),
-) {}
+) {
+  @Field()
+  password: string;
+}
 
 @InputType()
 export class UserUpdatePasswordDto {

@@ -16,6 +16,7 @@ enum UserRoles {
 @ObjectType('User')
 @Entity()
 export class User extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
