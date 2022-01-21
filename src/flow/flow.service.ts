@@ -19,4 +19,11 @@ export class FlowService {
       relations: [nameof<Flow>((flow) => flow.user)],
     });
   }
+
+  async findForUser(id: number, user: User): Promise<Flow> {
+    return this.flowRepository.findOne(
+      { id, user },
+      { relations: [nameof<Flow>((flow) => flow.user)] },
+    );
+  }
 }

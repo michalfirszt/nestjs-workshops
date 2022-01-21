@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Query, Resolver } from '@nestjs/graphql';
 
 import { CurrentUserGql } from '../utilities/current-user-gql.decorator';
 import { UserGraphqlAuthGuard } from '../auth/guards/user-graphql-auth.guard';
@@ -15,5 +15,14 @@ export class FlowResolver {
   @Query(() => [Flow])
   flows(@CurrentUserGql() currentUser: User): Promise<Flow[]> {
     return this.flowService.findAllForUser(currentUser);
+  }
+
+  @UseGuards(UserGraphqlAuthGuard)
+  @Query(() => Flow)
+  flow(
+    @Args({ name: 'id', type: () => ID }) id: number,
+    @CurrentUserGql() currentUser: User,
+  ): Promise<Flow> {
+    return this.flowService.findForUser(id, currentUser);
   }
 }
