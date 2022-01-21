@@ -6,10 +6,32 @@ import { User } from '../user/user.entity';
 import { FlowService } from './flow.service';
 import { Flow } from './flow.entity';
 import { UseGuards } from '@nestjs/common';
+import { FlowCreateDto, FlowUpdateDto } from './flow.dto';
 
 @Resolver()
 export class FlowResolver {
   constructor(private flowService: FlowService) {}
+
+  @UseGuards(UserGraphqlAuthGuard)
+  @Mutation(() => Flow)
+  flowCreate(
+    @Args('flow') flowDto: FlowCreateDto,
+    @CurrentUserGql() currentUser: User,
+  ) {
+    return this.flowService.create(flowDto, currentUser);
+  }
+
+  @UseGuards(UserGraphqlAuthGuard)
+  @Mutation(() => Flow)
+  async flowUpdate(
+    @Args({ name: 'id', type: () => ID }) id: number,
+    @Args('flow') flowDto: FlowUpdateDto,
+    @CurrentUserGql() currentUser: User,
+  ) {
+    const updatedFlow = await this.flowService.update(id, flowDto, currentUser);
+
+    return updatedFlow;
+  }
 
   @UseGuards(UserGraphqlAuthGuard)
   @Query(() => [Flow])

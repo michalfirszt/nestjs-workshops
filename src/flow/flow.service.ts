@@ -5,6 +5,7 @@ import { nameof } from 'ts-simple-nameof';
 
 import { Flow } from './flow.entity';
 import { User } from '../user/user.entity';
+import { FlowCreateDto, FlowUpdateDto } from './flow.dto';
 
 @Injectable()
 export class FlowService {
@@ -12,6 +13,18 @@ export class FlowService {
     @InjectRepository(Flow)
     private flowRepository: Repository<Flow>,
   ) {}
+
+  async create(flowDto: FlowCreateDto, user: User): Promise<Flow> {
+    const flow = this.flowRepository.create({ ...flowDto, user });
+
+    return flow.save();
+  }
+
+  async update(id: number, flowDto: FlowUpdateDto, user: User): Promise<Flow> {
+    await this.flowRepository.update({ id, user }, { ...flowDto });
+
+    return this.flowRepository.findOne({ id, user });
+  }
 
   async findAllForUser(user: User): Promise<Flow[]> {
     return this.flowRepository.find({
