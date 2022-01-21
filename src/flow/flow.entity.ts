@@ -50,7 +50,7 @@ export class Flow extends BaseEntity {
   })
   updatedAt: string | null;
 
-  @Field(() => FlowStates)
+  // @Field(() => FlowStates)
   @Column({ type: 'enum', enum: FlowStates, default: FlowStates.DRAFT })
   state: FlowStates;
 

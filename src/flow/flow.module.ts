@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 
-import { UserController } from '../user/user.controller';
 import { FlowService } from './flow.service';
 import { FlowResolver } from './flow.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Flow } from './flow.entity';
 
 @Module({
-  controllers: [UserController],
+  imports: [TypeOrmModule.forFeature([Flow])],
   providers: [FlowService, FlowResolver],
   exports: [FlowService],
 })
