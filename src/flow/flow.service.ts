@@ -26,4 +26,19 @@ export class FlowService {
       { relations: [nameof<Flow>((flow) => flow.user)] },
     );
   }
+
+  async delete(id: number, user: User): Promise<Flow> {
+    const flow = await this.flowRepository.findOne({ id, user });
+    await flow.remove();
+    flow.id = id;
+
+    return flow;
+  }
+
+  async search(search: string, user: User): Promise<Flow[]> {
+    return this.flowRepository
+      .createQueryBuilder('flow')
+      .where('flow.userId = :userId', { userId: user.id })
+      .getMany();
+  }
 }

@@ -1,4 +1,4 @@
-import { Args, ID, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { CurrentUserGql } from '../utilities/current-user-gql.decorator';
 import { UserGraphqlAuthGuard } from '../auth/guards/user-graphql-auth.guard';
@@ -24,5 +24,14 @@ export class FlowResolver {
     @CurrentUserGql() currentUser: User,
   ): Promise<Flow> {
     return this.flowService.findForUser(id, currentUser);
+  }
+
+  @UseGuards(UserGraphqlAuthGuard)
+  @Mutation(() => Flow)
+  async flowDelete(
+    @Args({ name: 'id', type: () => ID }) id: number,
+    @CurrentUserGql() currentUser: User,
+  ): Promise<Flow> {
+    return this.flowService.delete(id, currentUser);
   }
 }
