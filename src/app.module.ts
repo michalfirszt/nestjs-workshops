@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { FlowModule } from './flow/flow.module';
 
 import config from '../ormconfig';
 
@@ -20,6 +21,7 @@ import config from '../ormconfig';
     }),
     UserModule,
     AuthModule,
+    FlowModule,
   ],
   controllers: [AppController],
   providers: [AppService],

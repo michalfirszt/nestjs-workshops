@@ -4,9 +4,12 @@ import {
   Column,
   PrimaryGeneratedColumn,
   Index,
+  OneToMany,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
+
+import { Flow } from '../flow/flow.entity';
 
 enum UserRoles {
   USER = 'USER',
@@ -51,6 +54,9 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   password: string | null;
+
+  @OneToMany(() => Flow, (flow) => flow.user)
+  flows: Flow[];
 
   async getIsPasswordValid(password) {
     const validPassword = await bcrypt.compare(password, this.password);
